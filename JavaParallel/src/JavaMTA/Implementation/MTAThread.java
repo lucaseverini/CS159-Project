@@ -10,7 +10,7 @@
 // References
 // http://www.javacodegeeks.com/2013/01/java-thread-pool-example-using-executors-and-threadpoolexecutor.html
 
-package JavaMTA;
+package JavaMTA.Implementation;
 
 import java.lang.reflect.Method;
 

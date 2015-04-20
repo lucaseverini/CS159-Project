@@ -7,16 +7,16 @@
 	By Luca Severini (lucaseverini@mac.com)
 */
 
-package Testing;
+package JavaMTA.Testing;
 
-import JavaMTA.MTAAnnotations;
-import JavaMTA.MTAHelpers;
+import JavaMTA.Implementation.MTAAnnotations;
+import JavaMTA.Implementation.MTAHelpers;
 
 // Class TestProgram
 // ------------------------------------------------------------------
 public class TestProgram implements TestProgramInterface
 {
-	static private TestProgramInterface t;
+	static private TestProgramInterface progInterface;
 	private int counter;
 	
 	// TestProgram
@@ -32,14 +32,14 @@ public class TestProgram implements TestProgramInterface
 	{		
 		if(prog != null)
 		{
-			t = prog;
+			progInterface = prog;
 		}
 		else
 		{
-			t = new TestProgram();
+			progInterface = new TestProgram();
 		}
 		
-		t.test();
+		progInterface.test();
 
 		return 0;
 	}
@@ -47,39 +47,44 @@ public class TestProgram implements TestProgramInterface
 	// test
 	// ------------------------------------------------------------------
 	@MTAAnnotations(parallelize=false)
+	@Override
 	public void test()
 	{
 		for(int idx = 1; idx <= 100; idx++)
 		{
-			int result = t.func(idx);
+			int result = progInterface.func(idx);
 		}
 	}
 	
 	// func
 	// ------------------------------------------------------------------
 	@MTAAnnotations(parallelize=true)
+	@Override
 	public int func(int param)
 	{
-		t.section1Enter();
+		progInterface.section1Enter();
 		
 		// This piece of code needs a critical section
-		int result = t.getCounter() + 100;		
+		int result = progInterface.getCounter() + 100;		
 		MTAHelpers.sleep(300);		
-		t.setCounter(result);
+		progInterface.setCounter(result);
 		
-		t.section1Exit();
+		progInterface.section1Exit();
 		
 		// This code doesn't need a critical section
 		// int result = t.addToCounter(100);
 								
 		printLog("Thread: " + Thread.currentThread().getId());
 		
+		MTAHelpers.sleep(1000);
+		
 		return result;
 	}
 	
 	// addToCounter
 	// ------------------------------------------------------------------
-	@MTAAnnotations(synchronize=true)
+	@MTAAnnotations(synchronize=true) // Makes this method Synchronized (true) or not (false)
+	@Override
 	public int addToCounter(int val)
 	{
 		counter += val;
@@ -88,7 +93,8 @@ public class TestProgram implements TestProgramInterface
 
 	// setCounter
 	// ------------------------------------------------------------------
-	@MTAAnnotations(synchronize=false)
+	@MTAAnnotations(synchronize=false) // Makes this method Synchronized (true) or not (false)
+	@Override
 	public void setCounter(int val)
 	{
 		counter = val;
@@ -96,7 +102,8 @@ public class TestProgram implements TestProgramInterface
 
 	// getCounter
 	// ------------------------------------------------------------------
-	@MTAAnnotations(synchronize=false)
+	@MTAAnnotations(synchronize=false) // Makes this method Synchronized (true) or not (false)
+	@Override
 	public int getCounter()
 	{
 		return counter;
@@ -104,7 +111,8 @@ public class TestProgram implements TestProgramInterface
 	
 	// section1Enter
 	// ------------------------------------------------------------------
-	@MTAAnnotations(mutex="section1", lock=true)
+	@MTAAnnotations(mutex="section1", lock=true) // Makes this method a Critical Section entry point (true) or not (false)
+	@Override
 	public void section1Enter()
 	{
 		System.out.println("Entered section1...");
@@ -112,7 +120,8 @@ public class TestProgram implements TestProgramInterface
 
 	// section1Exit
 	// ------------------------------------------------------------------
-	@MTAAnnotations(mutex="section1", release=true)
+	@MTAAnnotations(mutex="section1", release=true) // Makes this method a Critical Section exit point (true) or not (false)
+	@Override
 	public void section1Exit()
 	{
 		System.out.println("Exited section1...");
@@ -122,16 +131,16 @@ public class TestProgram implements TestProgramInterface
 	// ------------------------------------------------------------------
 	public void printLog(String text)
 	{
-		t.section1Enter();
+		progInterface.section1Enter();		// Enter Critical Section
 
-		System.out.println("1111111111111111111");
-		System.out.println("2222222222222222222");
+		System.out.println("Just print something: ***********");
+		System.out.println("Just print something: ***********");
 
 		System.out.println(text);
 
-		System.out.println("3333333333333333333");
-		System.out.println("4444444444444444444");
+		System.out.println("Just print something: ***********");
+		System.out.println("Just print something: ***********");
 			
-		t.section1Exit();
+		progInterface.section1Exit();		// Exit Critical Section
 	}
 }

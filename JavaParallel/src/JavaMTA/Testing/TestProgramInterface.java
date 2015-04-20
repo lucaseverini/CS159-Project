@@ -7,7 +7,7 @@
 	By Luca Severini (lucaseverini@mac.com)
 */
 
-package Testing;
+package JavaMTA.Testing;
 
 // Interface TestProgramInterface
 // ------------------------------------------------------------------

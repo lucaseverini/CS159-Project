@@ -7,7 +7,7 @@
 	By Luca Severini (lucaseverini@mac.com)
 */
 
-package JavaMTA;
+package JavaMTA.Implementation;
 
 import java.util.concurrent.Semaphore;
 

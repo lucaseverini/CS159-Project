@@ -7,10 +7,10 @@
 	By Luca Severini (lucaseverini@mac.com)
 */
 
-package JavaMTA;
+package JavaMTA.Implementation;
 
-import Testing.TestProgram;
-import Testing.TestProgramInterface;
+import JavaMTA.Testing.TestProgram;
+import JavaMTA.Testing.TestProgramInterface;
 
 // Class MTAMain
 // ------------------------------------------------------------------
@@ -19,7 +19,8 @@ public class MTAMain
 	public static void main(String[] args)
 	{
 		TestProgramInterface myTest = (TestProgramInterface)MTAProxy.newInstance(new TestProgram());
-				
+		MTAProxy.setEnabled(true);
+		
         long start = System.nanoTime();
 
 		System.out.println("START");

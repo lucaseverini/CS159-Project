@@ -10,7 +10,7 @@
 // References
 // http://www.mkyong.com/java/java-custom-annotations-example/
 
-package JavaMTA;
+package JavaMTA.Implementation;
  
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

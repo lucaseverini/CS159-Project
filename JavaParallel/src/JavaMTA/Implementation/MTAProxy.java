@@ -11,9 +11,9 @@
 // http://www.javacodegeeks.com/2012/08/creating-java-dynamic-proxy.html
 // http://www.mkyong.com/java/java-custom-annotations-example/
 
-package JavaMTA;
+package JavaMTA.Implementation;
 
-import Testing.TestProgram;
+import JavaMTA.Testing.TestProgram;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -72,15 +72,13 @@ public class MTAProxy implements java.lang.reflect.InvocationHandler
 
 			if(hasParallelizeAnnotation(m))
 			{
-				System.out.println("Invoking " + m.getName() + " from thread...");
+				System.out.println("Invoking " + m.getName() + " Concurrently...");
 			
 				Runnable worker = new MTAThread(m, obj, args);
 				executor.execute(worker);
 			}
 			else
 			{
-				System.out.println("Invoking " + m.getName() + " directly...");
-				
 				if(hasSinchronizeAnnotation(m))
 				{
 					acquireSynchronization(m);
